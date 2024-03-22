@@ -103,7 +103,83 @@ margin-bottom: 0.5%;
  
  }
 
-
-
+ @media screen and (max-width: 768px) {
+    .own-container-div3 {
+       width: 45%;
+       height: 12vw;
+       margin-bottom: 0.5%;
+    }
+ 
+    .own-field-div3 {
+       cursor: pointer;
+       width: 33.3%;
+       height: 99%;
+       font-size: 9vw;
+       margin: 0 0.5% 0 0.5%;
+    }
+ 
+    .own-container-div4 {
+       width: 55%;
+       height: 13.5vw;
+       margin-bottom: 0.5%;
+    }
+ 
+    .own-field-div4 {
+       cursor: pointer;
+       width: 35%;
+       height: 99%;
+       font-size: 7vw;
+       margin: 0 0.5% 0 0.5%;
+    }
+ 
+    .own-container-div5 {
+       width: 70%;
+       height: 12vw;
+       margin-bottom: 0.5%;
+    }
+ 
+    .own-field-div5 {
+       cursor: pointer;
+       width: 20%;
+       height: 99%;
+       font-size: 5vw;
+       margin: 0 0.5% 0 0.5%;
+    }
+ 
+    .own-container-div6 {
+       width: 70%;
+       height: 11vw;
+       margin-bottom: 0.5%;
+    }
+ 
+    .own-field-div6 {
+       cursor: pointer;
+       width: 20%;
+       height: 99%;
+       font-size: 4vw;
+       margin: 0 0.5% 0 0.5%;
+    }
+ 
+    .own-container-div7 {
+       width: 80%;
+       height: 10.5vw;
+       margin-bottom: 0.5%;
+    }
+ 
+    .own-field-div7 {
+       cursor: pointer;
+       width: 13.5%;
+       height: 99%;
+       font-size: 3vw;
+       margin: 0 0.5% 0 0.5%;
+    }
+ }
+ 
+ @media (max-width: 650px) {
+    .own-message-div {
+      height: 200px;
+      width: 250px;
+    }
+  }
 
 

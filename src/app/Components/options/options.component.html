@@ -1,7 +1,7 @@
 <div
-    class="container bg-dark text-light border-secondary w-75 d-flex flex-row my-2 align-items-center justify-content-between rounded-pill py-2">
+    class="container bg-dark text-light border-secondary w-75 d-flex flex-row my-2 align-items-center justify-content-between rounded-pill py-2 ">
 
-    <div class="d-flex gap-3 align-items-center">
+    <div class="d-flex gap-3 align-items-center own-repair">
         <button class="px-4 rounded-pill bg-primary text-light fs-6" *ngFor="let item of [3,4,5,6,7]" (click)="setBoardSize(item)">{{item+"X"+item}}</button>
     </div>
     <span>Player:<span class="text-primary fs-5">{{actualPlayerSign}}</span></span>
