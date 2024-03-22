@@ -10,6 +10,7 @@ import { SavedGameListComponent } from '../../Components/saved-game-list/saved-g
 import { SavedMessageComponent } from '../../Components/saved-message/saved-message.component';
 import { BoardService } from '../../Services/board.service';
 import { CrudService } from '../../Services/crud.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -20,6 +21,7 @@ import { CrudService } from '../../Services/crud.service';
   imports: [
     CommonModule,
     SavedGameRoutingModule,
+    HttpClientModule,
   ],
   providers:[BoardService,CrudService],
 })

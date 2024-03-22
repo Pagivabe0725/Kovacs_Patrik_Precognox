@@ -11,6 +11,7 @@ export class BoardComponent implements OnChanges {
   @Input() boardSize: number = 3;
   @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
   @Output() sendWinner: EventEmitter<string> = new EventEmitter();
+  @Output() sendBoardMatrix:EventEmitter<string> = new EventEmitter();
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
@@ -61,6 +62,7 @@ export class BoardComponent implements OnChanges {
       this.boardMatrix[yCordinate][xCordinate] = this.actualPlayerSignValue();
       this.actualStep++;
       this.sendActualPlayerSign.emit(this.actualPlayerSignValue())
+      this.sendBoardMatrix.emit(this.boardService.matrixInOneRow(this.boardMatrix))
     }
   }
 

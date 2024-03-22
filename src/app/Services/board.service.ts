@@ -5,7 +5,11 @@ import { Injectable } from '@angular/core';
 })
 export class BoardService {
 
-  createBoardMatrix(row: string, size: number) {
+  getFieldValue(boardMatrix: Array<Array<number>>, yCordinate: number, xCordinate: number): string {
+    return boardMatrix[yCordinate][xCordinate] === 0 ? '' : boardMatrix[yCordinate][xCordinate] === 1 ? 'X' : 'O';
+  }
+
+  createBoardMatrix(row: string, size: number): Array<Array<number>> {
     let matrix: Array<Array<number>> = [];
     let h = 0;
     for (let i = 0; i < size; i++) {
@@ -19,8 +23,24 @@ export class BoardService {
     return matrix;
   }
 
-  getFieldValue(boardMatrix: Array<Array<number>>, yCordinate: number, xCordinate: number): string {
-    return boardMatrix[yCordinate][xCordinate] === 0 ? '' : boardMatrix[yCordinate][xCordinate] === 1 ? 'X' : 'O';
+  matrixInOneRow(array: Array<Array<number>>): string {
+    let row: string = '';
+    for (let i = 0; i < array.length; i++) {
+      for (let j = 0; j < array.length; j++) {
+        switch (array[i][j]) {
+          case 0:
+            row += '0'
+            break;
+          case 1:
+            row += '1'
+            break;
+          case 2:
+            row += '2'
+            break;
+        }
+      }
+    }
+    return row;
   }
 
 }

@@ -1,3 +1,3 @@
-<app-board (sendActualPlayerSign)="setActualPlayerSign($event)" [boardSize]="boardSize" (sendWinner)="setWinner($event)"></app-board>
+<app-board (sendActualPlayerSign)="setActualPlayerSign($event)" [boardSize]="boardSize" (sendWinner)="setWinner($event)" (sendBoardMatrix)="setBoardMatrixInOneRow($event)"></app-board>
 <app-options [actualPlayerSign]="actualPlayerSign" (sendBoardSize)="setBorderSize($event)" (sendSaveRequest)="setSaveRequest($event)"></app-options>
-<app-game-message [visible]="saveRequest" (visibleInverse)=" setSaveRequest($event)" [winner]="winner"></app-game-message>
+<app-game-message [visible]="saveRequest" (visibleInverse)=" setSaveRequest($event)" [winner]="winner" [boardMatrixInRow]="boardMatrixInRow"></app-game-message>

@@ -9,7 +9,7 @@ import { Subscription } from 'rxjs';
   templateUrl: './saved-game-list.component.html',
   styleUrl: './saved-game-list.component.scss'
 })
-export class SavedGameListComponent implements OnInit ,OnDestroy{
+export class SavedGameListComponent implements OnInit, OnDestroy {
 
   actionLoadOrDelete: string = '';
   allBoardArray?: Array<board>;
@@ -19,16 +19,16 @@ export class SavedGameListComponent implements OnInit ,OnDestroy{
   getSubscribtion?: Subscription;
 
 
-  constructor(private boardService: BoardService, private crudService: CrudService) {}
+  constructor(private boardService: BoardService, private crudService: CrudService) { }
 
   ngOnInit(): void {
-    this.getSubscribtion?.unsubscribe()
-  }
-
-  ngOnDestroy(): void {
     this.getSubscribtion = this.crudService.getAllBoard().subscribe(
       data => { if (data) { this.allBoardArray = data; console.log(this.allBoardArray) } }, error => { console.log(error) }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.getSubscribtion?.unsubscribe()
   }
 
   getBoardSize(board: board): number {
@@ -38,6 +38,10 @@ export class SavedGameListComponent implements OnInit ,OnDestroy{
       }
     }
     return 3;
+  }
+
+  setAction(text: string) {
+    this.actionLoadOrDelete = text;
   }
 
   getFieldValue(xCordinate: number, yCordinate: number): string {
@@ -55,4 +59,21 @@ export class SavedGameListComponent implements OnInit ,OnDestroy{
     this.visibleBoardId = board.id;
     this.visibleBoard = this.boardService.createBoardMatrix(board.board, this.getBoardSize(board));
   }
+
+  setDeleteObject(board: board) {
+    const deleteSubscription = this.crudService.getBoardById(board).subscribe(
+      data => { this.actualActionObject = data },
+      error => { console.log(error) },
+      () => { deleteSubscription.unsubscribe() })
+
+  }
+
+  delete(text: string, board: board): void {
+    this.visibleBoardId = board.id;
+    this.visibleBoard = this.boardService.createBoardMatrix(board.board, this.getBoardSize(board));
+    this.setDeleteObject(board)
+    this.setAction(text);
+  }
+
+
 }

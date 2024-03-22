@@ -8,6 +8,8 @@ import { OptionsComponent } from '../../Components/options/options.component';
 import { GameMessageComponent } from '../../Components/game-message/game-message.component';
 import { BoardService } from '../../Services/board.service';
 import { ReactiveFormsModule } from '@angular/forms';
+import { CrudService } from '../../Services/crud.service';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -21,9 +23,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     CommonModule,
     GameRoutingModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
   providers:[
-    BoardService,
+    BoardService,CrudService,
   ]
 })
 export class GameModule { }
