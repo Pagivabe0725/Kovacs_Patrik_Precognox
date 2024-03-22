@@ -38,7 +38,7 @@ export class BoardComponent {
   fillField(yCordinate: number, xCordinate: number): void {
     if (this.getFieldValue(yCordinate, xCordinate) === '') {
       this.boardMatrix[yCordinate][xCordinate] = this.actualPlayerSignValue();
-      console.log(this.verticalChecker(1))
+      console.log(this.horizontalChecker(1))
       this.actualStep++;
     }
   }
@@ -64,5 +64,30 @@ export class BoardComponent {
     }
     return [];
   }
+
+
+  horizontalChecker(sign: number): Array<string> {
+
+    for (let i = 0; i < this.boardSize; i++) {
+      let helperArray: Array<string> = [];
+      for (let j = 0; j < this.boardSize; j++) {
+        if (i + this.fieldNumberToWin <= this.boardSize) {
+          for (let h = 0; h < this.fieldNumberToWin; h++) {
+            if (this.boardMatrix[h + i][j] === sign) {
+              helperArray.push(h + i + ":" + j)
+            }
+          }
+        }
+        if (helperArray.length === this.fieldNumberToWin) {
+          return helperArray;
+        } else {
+          helperArray = [];
+        }
+      }
+    }
+    return [];
+  }
+
+
 
 }
