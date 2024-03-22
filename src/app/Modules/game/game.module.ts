@@ -6,6 +6,7 @@ import { GameComponent } from '../../Components/game/game.component';
 import { BoardComponent } from '../../Components/board/board.component';
 import { OptionsComponent } from '../../Components/options/options.component';
 import { GameMessageComponent } from '../../Components/game-message/game-message.component';
+import { BoardService } from '../../Services/board.service';
 
 
 @NgModule({
@@ -18,6 +19,9 @@ import { GameMessageComponent } from '../../Components/game-message/game-message
   imports: [
     CommonModule,
     GameRoutingModule
+  ],
+  providers:[
+    BoardService,
   ]
 })
 export class GameModule { }
