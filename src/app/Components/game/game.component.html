@@ -1,2 +1,2 @@
-<app-board></app-board>
-<app-options></app-options>
+<app-board (sendActualPlayerSign)="setActualPlayerSign($event)" [boardSize]="boardSize"></app-board>
+<app-options [actualPlayerSign]="actualPlayerSign" (sendBoardSize)="setBorderSize($event)"></app-options>

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { BoardService } from '../../Services/board.service';
 
 @Component({
@@ -6,9 +6,10 @@ import { BoardService } from '../../Services/board.service';
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
-export class BoardComponent {
+export class BoardComponent implements OnChanges {
 
-  boardSize: number = 3;
+  @Input() boardSize: number = 3;
+  @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
@@ -19,6 +20,16 @@ export class BoardComponent {
     this.boardMatrix = boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
     this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.boardMatrix = this.boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
+    this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
+    this.canStep=true;
+    this.actualStep=0;
+    this.winnerFields=[];
+    this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
+  }
+  
 
   createRowWidthEmptyFields(): string {
     let row = '';
@@ -47,9 +58,8 @@ export class BoardComponent {
   fillField(yCordinate: number, xCordinate: number): void {
     if (this.getFieldValue(yCordinate, xCordinate) === '' && this.canStep) {
       this.boardMatrix[yCordinate][xCordinate] = this.actualPlayerSignValue();
-      console.log(this.rightCrossChecker(1))
-      console.log(this.leftCrossChecker(1))
       this.actualStep++;
+      this.sendActualPlayerSign.emit(this.actualPlayerSignValue())
     }
   }
 

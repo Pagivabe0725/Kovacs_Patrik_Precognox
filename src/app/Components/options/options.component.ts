@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-options',
@@ -7,4 +7,11 @@ import { Component } from '@angular/core';
 })
 export class OptionsComponent {
 
+  @Input() actualPlayerSign: string = 'X'
+  @Output() sendBoardSize: EventEmitter<number> = new EventEmitter();
+
+
+  setBoardSize(size:number):void{
+    this.sendBoardSize.emit(size)
+  }
 }
