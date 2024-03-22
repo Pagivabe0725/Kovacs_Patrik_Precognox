@@ -8,6 +8,8 @@ import { OptionsComponent } from '../../Components/options/options.component';
 import { GameMessageComponent } from '../../Components/game-message/game-message.component';
 import { SavedGameListComponent } from '../../Components/saved-game-list/saved-game-list.component';
 import { SavedMessageComponent } from '../../Components/saved-message/saved-message.component';
+import { BoardService } from '../../Services/board.service';
+import { CrudService } from '../../Services/crud.service';
 
 
 @NgModule({
@@ -18,6 +20,7 @@ import { SavedMessageComponent } from '../../Components/saved-message/saved-mess
   imports: [
     CommonModule,
     SavedGameRoutingModule,
-  ]
+  ],
+  providers:[BoardService,CrudService],
 })
 export class SavedGameModule { }
