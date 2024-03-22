@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { board } from '../../../Interfaces/board';
 
 @Injectable({
   providedIn: 'root'
@@ -41,6 +42,15 @@ export class BoardService {
       }
     }
     return row;
+  }
+
+  getBoardSize(board: board): number {
+    for (let i = 7; i >= 3; i--) {
+      if (board.board.length % i === 0) {
+        return i;
+      }
+    }
+    return 3;
   }
 
 }

@@ -4,7 +4,7 @@
         [ngClass]="boardMatrix ? 'own-container-div'+boardSize:''">
         <div class=" bg-light rounded border border-primary
         border-2 d-flex justify-content-center align-items-center" *ngFor="let item of boardMatrix let j = index"
-            [ngClass]="boardMatrix ? 'own-field-div'+boardSize:''" (click)="checker(i,j)"
+            [ngClass]="boardMatrix ? 'own-field-div'+boardSize:''" (click)="fillField(i,j)"
             [ngStyle]="{'color': isWinnerField(i, j) ? 'green' : ''}">{{getFieldValue(i,j)}}</div>
     </div>
 

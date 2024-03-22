@@ -32,12 +32,7 @@ export class SavedGameListComponent implements OnInit, OnDestroy {
   }
 
   getBoardSize(board: board): number {
-    for (let i = 7; i >= 3; i--) {
-      if (board.board.length % i === 0) {
-        return i;
-      }
-    }
-    return 3;
+    return this.boardService.getBoardSize(board);
   }
 
   setAction(text: string) {

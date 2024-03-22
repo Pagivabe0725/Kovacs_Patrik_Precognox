@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BoardService } from '../../Services/board.service';
 import { ActivatedRoute } from '@angular/router';
+import { board } from '../../../../Interfaces/board';
 
 @Component({
   selector: 'app-board',
@@ -12,15 +13,15 @@ export class BoardComponent implements OnChanges, OnInit {
   @Input() boardSize: number = 3;
   @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
   @Output() sendWinner: EventEmitter<string> = new EventEmitter();
-  @Output() sendBoardMatrix:EventEmitter<string> = new EventEmitter();
+  @Output() sendBoardMatrix: EventEmitter<string> = new EventEmitter();
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
   canStep: boolean = true;
   winnerFields: Array<string> = [];
-  loadBoard?:string;
+  loadBoard?: board;
 
-  constructor(private boardService: BoardService , private actRoute : ActivatedRoute) {
+  constructor(private boardService: BoardService, private actRoute: ActivatedRoute) {
     this.boardMatrix = boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
     this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
   }
@@ -28,23 +29,36 @@ export class BoardComponent implements OnChanges, OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.boardMatrix = this.boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
     this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
-    this.canStep=true;
-    this.actualStep=0;
-    this.winnerFields=[];
+    this.canStep = true;
+    this.actualStep = 0;
+    this.winnerFields = [];
     this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
   }
 
   ngOnInit(): void {
-    this.actRoute.params.subscribe((param : any) =>{
-      this.loadBoard= param.board as string;
-      if(this.loadBoard){
-        this.boardMatrix = this.boardService.createBoardMatrix(this.loadBoard, 3);
+    this.actRoute.params.subscribe((param: any) => {
+      this.loadBoard = JSON.parse(param.board) as board;
+      if (this.loadBoard) {
+        this.boardMatrix = this.boardService.createBoardMatrix(this.loadBoard.board, this.boardService.getBoardSize(this.loadBoard));
+        this.boardSize = this.boardService.getBoardSize(this.loadBoard);
+        this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
+        this.actualStep = this.calculateActualStep(this.loadBoard.board);
+        this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
+        this.winnerFields = [];
+        this.checker()
       }
     })
   }
 
-  
-  
+  calculateActualStep(row: string): number {
+    let value: number = 0;
+    for (let i = 0; i < row.length; i++) {
+      if (row[i] !== '0') {
+        value++;
+      }
+    }
+    return value;
+  }
 
   createRowWidthEmptyFields(): string {
     let row = '';
@@ -62,9 +76,9 @@ export class BoardComponent implements OnChanges, OnInit {
     return this.boardService.getFieldValue(this.boardMatrix, yCordinate, xCordinate);
   }
 
-  isWinnerField(yCordinate: number, xCordinate: number):boolean{
+  isWinnerField(yCordinate: number, xCordinate: number): boolean {
 
-    if(this.winnerFields.includes(yCordinate+":"+xCordinate)){
+    if (this.winnerFields.includes(yCordinate + ":" + xCordinate)) {
       return true;
     }
     return false;
@@ -76,6 +90,7 @@ export class BoardComponent implements OnChanges, OnInit {
       this.actualStep++;
       this.sendActualPlayerSign.emit(this.actualPlayerSignValue())
       this.sendBoardMatrix.emit(this.boardService.matrixInOneRow(this.boardMatrix))
+      this.checker()
     }
   }
 
@@ -168,8 +183,7 @@ export class BoardComponent implements OnChanges, OnInit {
     return [];
   }
 
-  checker(yCordinate: number, xCordinate: number) {
-    this.fillField(yCordinate, xCordinate);
+  checker() {
 
     if (this.winnerFields.length === 0) {
       this.winnerFields = this.verticalChecker(1);
@@ -197,9 +211,9 @@ export class BoardComponent implements OnChanges, OnInit {
     }
     if (this.winnerFields.length !== 0 && this.canStep) {
       this.canStep = false;
-      this.actualPlayerSignValue() === 1 ? this.sendWinner.emit('Player2'):this.sendWinner.emit('Player1');
+      this.actualPlayerSignValue() === 1 ? this.sendWinner.emit('Player2') : this.sendWinner.emit('Player1');
     }
-    if(this.actualStep===this.boardSize*this.boardSize && this.canStep){
+    if (this.actualStep === this.boardSize * this.boardSize && this.canStep) {
       this.sendWinner.emit('Draw')
     }
 

@@ -37,8 +37,7 @@ export class SavedMessageComponent {
   load(){
     if(this.actualBoardObject){
       console.log('betölt')
-      let boardInOneRow:string = this.actualBoardObject.board
-    this.router.navigateByUrl(`game/${boardInOneRow}`)
+    this.router.navigateByUrl(`game/${JSON.stringify(this.actualBoardObject)}`)
   }
   }
 
