@@ -8,7 +8,7 @@ import { BoardService } from '../../Services/board.service';
 })
 export class BoardComponent {
 
-  boardSize: number = 7;
+  boardSize: number = 3;
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
@@ -38,7 +38,8 @@ export class BoardComponent {
   fillField(yCordinate: number, xCordinate: number): void {
     if (this.getFieldValue(yCordinate, xCordinate) === '') {
       this.boardMatrix[yCordinate][xCordinate] = this.actualPlayerSignValue();
-      console.log(this.horizontalChecker(1))
+      console.log(this.rightCrossChecker(1))
+      console.log(this.leftCrossChecker(1))
       this.actualStep++;
     }
   }
@@ -75,6 +76,50 @@ export class BoardComponent {
           for (let h = 0; h < this.fieldNumberToWin; h++) {
             if (this.boardMatrix[h + i][j] === sign) {
               helperArray.push(h + i + ":" + j)
+            }
+          }
+        }
+        if (helperArray.length === this.fieldNumberToWin) {
+          return helperArray;
+        } else {
+          helperArray = [];
+        }
+      }
+    }
+    return [];
+  }
+
+  rightCrossChecker(sign: number): Array<string> {
+
+    for (let i = 0; i < this.boardSize; i++) {
+      let helperArray: Array<string> = [];
+      for (let j = 0; j < this.boardSize; j++) {
+        if (i + this.fieldNumberToWin <= this.boardSize && j + this.fieldNumberToWin <= this.boardSize) {
+          for (let h = 0; h < this.fieldNumberToWin; h++) {
+            if (this.boardMatrix[h + i][j + h] === sign) {
+              helperArray.push((h + i) + ":" + (h + j));
+            }
+          }
+        }
+        if (helperArray.length === this.fieldNumberToWin) {
+          return helperArray;
+        } else {
+          helperArray = [];
+        }
+      }
+    }
+    return [];
+  }
+
+  leftCrossChecker(sign: number): Array<string> {
+
+    for (let i = 0; i < this.boardSize; i++) {
+      let helperArray: Array<string> = [];
+      for (let j = this.boardSize - 1; j >= 0; j--) {
+        if (i + this.fieldNumberToWin <= this.boardSize && j - (this.fieldNumberToWin - 1) >= 0) {
+          for (let h = 0; h < this.fieldNumberToWin; h++) {
+            if (this.boardMatrix[i + h][j - h] === sign) {
+              helperArray.push((i + h) + ":" + (j - h));
             }
           }
         }
