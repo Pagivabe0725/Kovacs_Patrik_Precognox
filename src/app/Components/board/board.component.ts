@@ -13,6 +13,7 @@ export class BoardComponent {
   fieldNumberToWin: number;
   actualStep: number = 0;
   canStep: boolean = true;
+  winnerFields: Array<string> = [];
 
   constructor(private boardService: BoardService) {
     this.boardMatrix = boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
@@ -35,8 +36,16 @@ export class BoardComponent {
     return this.boardService.getFieldValue(this.boardMatrix, yCordinate, xCordinate);
   }
 
+  isWinnerField(yCordinate: number, xCordinate: number):boolean{
+
+    if(this.winnerFields.includes(yCordinate+":"+xCordinate)){
+      return true;
+    }
+    return false;
+  }
+
   fillField(yCordinate: number, xCordinate: number): void {
-    if (this.getFieldValue(yCordinate, xCordinate) === '') {
+    if (this.getFieldValue(yCordinate, xCordinate) === '' && this.canStep) {
       this.boardMatrix[yCordinate][xCordinate] = this.actualPlayerSignValue();
       console.log(this.rightCrossChecker(1))
       console.log(this.leftCrossChecker(1))
@@ -131,6 +140,39 @@ export class BoardComponent {
       }
     }
     return [];
+  }
+
+  checker(yCordinate: number, xCordinate: number) {
+    this.fillField(yCordinate, xCordinate);
+
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.verticalChecker(1);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.verticalChecker(2);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.horizontalChecker(1);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.horizontalChecker(2);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.rightCrossChecker(1);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.rightCrossChecker(2);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.leftCrossChecker(1);
+    }
+    if (this.winnerFields.length === 0) {
+      this.winnerFields = this.leftCrossChecker(2);
+    }
+    if (this.winnerFields.length !== 0 && this.canStep) {
+      this.canStep = false;
+    }
+
   }
 
 
