@@ -7,6 +7,7 @@ import { BoardComponent } from '../../Components/board/board.component';
 import { OptionsComponent } from '../../Components/options/options.component';
 import { GameMessageComponent } from '../../Components/game-message/game-message.component';
 import { BoardService } from '../../Services/board.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { BoardService } from '../../Services/board.service';
   ],
   imports: [
     CommonModule,
-    GameRoutingModule
+    GameRoutingModule,
+    ReactiveFormsModule,
   ],
   providers:[
     BoardService,

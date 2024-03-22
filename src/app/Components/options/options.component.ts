@@ -9,9 +9,12 @@ export class OptionsComponent {
 
   @Input() actualPlayerSign: string = 'X'
   @Output() sendBoardSize: EventEmitter<number> = new EventEmitter();
+  @Output() sendSaveRequest: EventEmitter<boolean> = new EventEmitter();
 
 
   setBoardSize(size:number):void{
     this.sendBoardSize.emit(size)
   }
+
+ 
 }

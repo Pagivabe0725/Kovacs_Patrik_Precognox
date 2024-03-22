@@ -10,6 +10,7 @@ export class BoardComponent implements OnChanges {
 
   @Input() boardSize: number = 3;
   @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
+  @Output() sendWinner: EventEmitter<string> = new EventEmitter();
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
@@ -181,6 +182,10 @@ export class BoardComponent implements OnChanges {
     }
     if (this.winnerFields.length !== 0 && this.canStep) {
       this.canStep = false;
+      this.actualPlayerSignValue() === 1 ? this.sendWinner.emit('Player2'):this.sendWinner.emit('Player1');
+    }
+    if(this.actualStep===this.boardSize*this.boardSize && this.canStep){
+      this.sendWinner.emit('Draw')
     }
 
   }

@@ -1,1 +1,25 @@
-<p>game-message works!</p>
+<ng-container *ngIf="visible ">
+    <div class="own-message-before-div">
+        <div
+            class="own-message-div bg-dark rounded-pill d-flex justify-content-center align-items-center flex-column gap-3 border border-secondary ">
+            <input type="text" placeholder="title"
+                class="position-relative d-block p-2 rounded-pill bg-black border-primary text-light text-uppercase w-50"
+                [formControl]="gameTitle">
+            <button class="position-relative d-block px-4 fs-5 rounded-pill bg-primary text-light"
+                (click)="save()">Save</button>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="winner!='' ">
+    <div class="own-message-before-div">
+        <div
+            class="own-message-div bg-dark rounded-pill d-flex justify-content-center align-items-center flex-column gap-3 border border-secondary ">
+            <span class="text-light">Winner:<span class="text-primary">{{winner}}</span></span>
+            <button class="position-relative d-block px-4 fs-5 rounded-pill bg-primary text-light"
+                (click)="reloade()">New Game</button>
+            <button class="position-relative d-block px-4 fs-5 rounded-pill bg-primary text-light"
+                (click)="switchToSave()">Save</button>
+        </div>
+    </div>
+</ng-container>

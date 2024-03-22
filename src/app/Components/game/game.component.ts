@@ -9,6 +9,8 @@ export class GameComponent {
 
 actualPlayerSign:string = 'X';
 boardSize:number=3;
+saveRequest:boolean=false;
+winner:string='';
 
 
 
@@ -19,5 +21,16 @@ setActualPlayerSign(sign:number):void{
 setBorderSize(size:number):void{
   this.boardSize=size;
 }
+
+setSaveRequest(request:boolean):void{
+  this.saveRequest=request;
+}
+
+setWinner(name: string) {
+  this.winner = name;
+}
+
+
+
 
 }
