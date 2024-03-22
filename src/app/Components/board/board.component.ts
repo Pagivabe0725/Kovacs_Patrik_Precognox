@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { BoardService } from '../../Services/board.service';
 import { ActivatedRoute } from '@angular/router';
 import { board } from '../../../../Interfaces/board';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-board',
@@ -14,6 +15,7 @@ export class BoardComponent implements OnChanges, OnInit {
   @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
   @Output() sendWinner: EventEmitter<string> = new EventEmitter();
   @Output() sendBoardMatrix: EventEmitter<string> = new EventEmitter();
+  @Output() sendActualStep: EventEmitter<number> = new EventEmitter();
   boardMatrix: Array<Array<number>>;
   fieldNumberToWin: number;
   actualStep: number = 0;
@@ -31,12 +33,13 @@ export class BoardComponent implements OnChanges, OnInit {
     this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
     this.canStep = true;
     this.actualStep = 0;
+    this.sendActualStep.emit(this.actualStep);
     this.winnerFields = [];
     this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
   }
 
   ngOnInit(): void {
-    this.actRoute.params.subscribe((param: any) => {
+    const loading : Subscription =this.actRoute.params.subscribe((param: any) => {
       this.loadBoard = JSON.parse(param.board) as board;
       if (this.loadBoard) {
         this.boardMatrix = this.boardService.createBoardMatrix(this.loadBoard.board, this.boardService.getBoardSize(this.loadBoard));
@@ -45,9 +48,11 @@ export class BoardComponent implements OnChanges, OnInit {
         this.actualStep = this.calculateActualStep(this.loadBoard.board);
         this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
         this.winnerFields = [];
-        this.checker()
-      }
+        this.checker();
+        loading.unsubscribe();
+      }else{loading.unsubscribe()} 
     })
+
   }
 
   calculateActualStep(row: string): number {
@@ -90,6 +95,7 @@ export class BoardComponent implements OnChanges, OnInit {
       this.actualStep++;
       this.sendActualPlayerSign.emit(this.actualPlayerSignValue())
       this.sendBoardMatrix.emit(this.boardService.matrixInOneRow(this.boardMatrix))
+      this.sendActualStep.emit(this.actualStep);
       this.checker()
     }
   }

@@ -12,7 +12,7 @@ export class GameComponent {
   saveRequest: boolean = false;
   winner: string = '';
   boardMatrixInRow: string = '';
-
+  actualStep:number =0;
 
 
   setActualPlayerSign(sign: number): void {
@@ -23,7 +23,13 @@ export class GameComponent {
     this.boardSize = size;
   }
 
-  setSaveRequest(request: boolean): void {
+  setSaveRequest(request: boolean ): void {
+    if(this.actualStep>0){
+    this.saveRequest = request;
+    }
+  }
+
+  exitRequest(request: boolean): void{
     this.saveRequest = request;
   }
 
@@ -33,6 +39,10 @@ export class GameComponent {
 
   setBoardMatrixInOneRow(row: string): void {
     this.boardMatrixInRow = row;
+  }
+
+  setActualStep(num : number){
+    this.actualStep = num;
   }
 
 

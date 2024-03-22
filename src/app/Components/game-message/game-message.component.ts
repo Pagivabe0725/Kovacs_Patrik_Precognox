@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -10,30 +10,59 @@ import { board } from '../../../../Interfaces/board';
   templateUrl: './game-message.component.html',
   styleUrl: './game-message.component.scss'
 })
-export class GameMessageComponent {
+export class GameMessageComponent implements OnInit{
 
   @Input() visible: boolean = false;
   @Input() winner: string = '';
   @Input() boardMatrixInRow: string = '';
+
   @Output() visibleInverse: EventEmitter<boolean> = new EventEmitter();
   @Output() sendDeleteWinner: EventEmitter<string> = new EventEmitter();
-  gameTitle: FormControl = new FormControl();
+  gameTitle: FormControl<string> = new FormControl();
   lastBoardObject?: board;
   postSubscribtion?: Subscription;
+  patchId?:number; 
 
   constructor(private router: Router, private crudService: CrudService, private actRoute: ActivatedRoute) {
     this.gameTitle.addValidators([Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
   }
 
+
+  ngOnInit(): void {
+    
+    const loading =this.actRoute.params.subscribe((param : any) => {
+      let loadedBoard:board = JSON.parse(param.board) as board;
+      if(loadedBoard){
+        this.patchId=loadedBoard.id;
+      }
+      loading.unsubscribe();
+    })
+
+  }
+
   save(): void {
-    if (this.gameTitle.valid) {
+    if (this.gameTitle.valid ) {
+
+      if(!this.patchId){
       this.postSubscribtion = this.crudService.postBoard(this.createBoardObject()).subscribe(
-        data => { this.lastBoardObject = data as board, this.visibleInverse.emit(false) },
+        data => { this.lastBoardObject = data as board, this.visibleInverse.emit(false), this.router.navigateByUrl('/saved-games') },
         (error => console.error(error))
       )
     }
+    else{
+     let helperObject = this.createBoardObject();
+      helperObject.id=this.patchId;
+      this.postSubscribtion= this.crudService.updateBoard(helperObject).subscribe((data) =>
+      this.router.navigateByUrl('/saved-games')
+      )
+    }
+    
+    }
+  }
 
-
+  back(){
+    this.visibleInverse.emit(false);
+    this.visible=false;
   }
 
   reloade() {
