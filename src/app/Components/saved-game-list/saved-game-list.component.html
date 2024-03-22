@@ -10,8 +10,8 @@
             <button
                 [ngClass]="visibleBoardId===item.id ? 'text-bg-light  rounded-pill  text-primary m-0 p-0 px-2 text-uppercase border-primary' : 'text-bg-primary  rounded-pill  text-light m-0 p-0 px-2'"
                 (click)="viewBoard(item)">view</button>
-            <button class="text-bg-primary  rounded-pill  text-light m-0 p-0 px-2" (click)="setAction('load')">load</button>
-            <button class="text-bg-primary  rounded-pill  text-light m-0 p-0 px-2" (click)="delete('delete',item)">delete</button>
+            <button class="text-bg-primary  rounded-pill  text-light m-0 p-0 px-2" (click)="deleteOrLoad('load',item)">load</button>
+            <button class="text-bg-primary  rounded-pill  text-light m-0 p-0 px-2" (click)="deleteOrLoad('delete',item)">delete</button>
         </div>
     </div>
 

@@ -2,10 +2,12 @@
 w-75 d-flex flex-row my-2 align-items-center justify-content-between
 rounded-pill py-2">
 
-    <h1 class="fs-3 p-0 m-0 text-uppercase">Tic-Tac-Toe</h1>
-    <div class=" d-flex flex-row gap-4 fs-5 align-items-center ">
-        <span class="own-pages-button rounded-pill px-3 ">Game</span>
-        <span class="own-pages-button rounded-pill px-3 ">Save</span>
-    </div>
+<h1 class="fs-3 p-0 m-0 text-uppercase">Tic-Tac-Toe</h1>
+<div class=" d-flex flex-row gap-4 fs-5 align-items-center ">
+    <span class="own-pages-button rounded-pill px-3 " (click)="changePage('game')"
+        [ngClass]="page==='game' ? 'bg-primary ':''">Game</span>
+    <span class="own-pages-button rounded-pill px-3 " (click)="changePage('saved-games')"
+        [ngClass]="page==='saved-games' ? 'bg-primary ':''">Save</span>
+</div>
 
 </header>

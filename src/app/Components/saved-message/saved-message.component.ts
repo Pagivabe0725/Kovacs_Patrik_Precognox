@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { board } from '../../../../Interfaces/board';
 import { CrudService } from '../../Services/crud.service';
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-saved-message',
@@ -15,7 +16,7 @@ export class SavedMessageComponent {
   @Output() sendActualTheme: EventEmitter<string> = new EventEmitter()
 
 
-  constructor(private crudService: CrudService,) {
+  constructor(private crudService: CrudService, private router : Router) {
 
   }
   back() {
@@ -24,7 +25,6 @@ export class SavedMessageComponent {
 
   deleteBoard() {
     if (this.actualBoardObject) {
-      console.log(this.actualBoardObject)
       let sub:Subscription = this.crudService.deleteBoard(this.actualBoardObject).subscribe(
         data => {  }, 
         error => console.log(error),
@@ -32,6 +32,14 @@ export class SavedMessageComponent {
       )
       window.location.reload() 
     }
+  }
+
+  load(){
+    if(this.actualBoardObject){
+      console.log('betölt')
+      let boardInOneRow:string = this.actualBoardObject.board
+    this.router.navigateByUrl(`game/${boardInOneRow}`)
+  }
   }
 
 }

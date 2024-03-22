@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { BoardService } from '../../Services/board.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-board',
   templateUrl: './board.component.html',
   styleUrl: './board.component.scss'
 })
-export class BoardComponent implements OnChanges {
+export class BoardComponent implements OnChanges, OnInit {
 
   @Input() boardSize: number = 3;
   @Output() sendActualPlayerSign: EventEmitter<number> = new EventEmitter();
@@ -17,8 +18,9 @@ export class BoardComponent implements OnChanges {
   actualStep: number = 0;
   canStep: boolean = true;
   winnerFields: Array<string> = [];
+  loadBoard?:string;
 
-  constructor(private boardService: BoardService) {
+  constructor(private boardService: BoardService , private actRoute : ActivatedRoute) {
     this.boardMatrix = boardService.createBoardMatrix(this.createRowWidthEmptyFields(), this.boardSize);
     this.fieldNumberToWin = this.boardSize === 3 ? 3 : 4;
   }
@@ -31,6 +33,17 @@ export class BoardComponent implements OnChanges {
     this.winnerFields=[];
     this.sendActualPlayerSign.emit(this.actualPlayerSignValue());
   }
+
+  ngOnInit(): void {
+    this.actRoute.params.subscribe((param : any) =>{
+      this.loadBoard= param.board as string;
+      if(this.loadBoard){
+        this.boardMatrix = this.boardService.createBoardMatrix(this.loadBoard, 3);
+      }
+    })
+  }
+
+  
   
 
   createRowWidthEmptyFields(): string {

@@ -60,7 +60,7 @@ export class SavedGameListComponent implements OnInit, OnDestroy {
     this.visibleBoard = this.boardService.createBoardMatrix(board.board, this.getBoardSize(board));
   }
 
-  setDeleteObject(board: board) {
+  setActionObject(board: board) {
     const deleteSubscription = this.crudService.getBoardById(board).subscribe(
       data => { this.actualActionObject = data },
       error => { console.log(error) },
@@ -68,12 +68,14 @@ export class SavedGameListComponent implements OnInit, OnDestroy {
 
   }
 
-  delete(text: string, board: board): void {
+  deleteOrLoad(text: string, board: board): void {
     this.visibleBoardId = board.id;
     this.visibleBoard = this.boardService.createBoardMatrix(board.board, this.getBoardSize(board));
-    this.setDeleteObject(board)
+    this.setActionObject(board)
     this.setAction(text);
   }
+
+  
 
 
 }

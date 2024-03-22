@@ -8,6 +8,11 @@ const routes: Routes = [
     component: GameComponent,
     title: 'game',
   },
+  {
+    path: ':board',
+    component: GameComponent,
+    title: 'game',
+  },
 ];
 
 @NgModule({
